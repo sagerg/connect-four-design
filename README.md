@@ -1,6 +1,6 @@
 # Connect Four Design
 
-A connect four game running on Flask
+A connect four game running on Flask. At the time of building this project, it is running on `Python 3.10.4` and using `pip 22.0.4`
 
 ## Quick Start
 
@@ -78,10 +78,6 @@ Final migration step
 ```
 $ flask db upgrade
 ```
-
-### Python
-
-At the time of building this project, it is running on `Python 3.10.4` and using `pip 22.0.4`
 
 ### Contributing
 
