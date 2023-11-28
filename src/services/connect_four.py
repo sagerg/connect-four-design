@@ -93,7 +93,9 @@ class ConnectFour:
 cf = ConnectFour()
 PLAYER1 = 1
 PLAYER2 = 2
+
 # pos can be in range(0,8) : there are 7 columns 0-indexed
+
 cf.drop(3,PLAYER1) # p1 drops at col=3
 cf.printBoard()
 cf.drop(3,PLAYER2) # p2 drops at col=3
@@ -110,6 +112,7 @@ cf.drop(2,PLAYER2) # p2 drops at col=2
 cf.printBoard()
 cf.drop(1,PLAYER2) # p2 drops at col=1
 cf.printBoard()
+
 '''
 TEST FOR ROW CHECK
 cf.drop(0,PLAYER2) # p2 drops at col=0
