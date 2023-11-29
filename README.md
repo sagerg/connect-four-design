@@ -51,6 +51,12 @@ Run the server
 $ python app.py
 ```
 
+Run tests
+
+```
+$ pytest
+```
+
 ## Database Migrations
 
 The following steps were taken from [this](https://blog.miguelgrinberg.com/post/how-to-add-flask-migrate-to-an-existing-project) blog by **Miguel Greenberg**

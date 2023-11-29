@@ -1,6 +1,5 @@
 from datetime import datetime
 import os
-
 import jwt
 from flask import request, Response, json, Blueprint
 from src import bcrypt, db
@@ -16,7 +15,7 @@ def handle_login():
     try: 
         # first check user parameters
         data = request.json
-        if "email" and "password" in data:
+        if "email" in data and "password" in data:
             # check db for user records
             user = User.query.filter_by(email = data["email"]).first()
 
