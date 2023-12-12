@@ -6,17 +6,26 @@ from enums import Player, Board, GUI
 from utils import draw_board
 
 
+""" Setup and manage game session
+"""
 def app():
+
+    # Instantiate ConnectFour game
     board = ConnectFour()
     game_over = False
-    turn = 0
+    
+    # Start game
     pygame.init()
+
     radius = int(GUI.SQUARESIZE.value/2 - 5)
     width = Board.COL.value * GUI.SQUARESIZE.value
     height = (Board.ROW.value+1) * GUI.SQUARESIZE.value
     size = (width, height)
     screen = pygame.display.set_mode(size)
+
+    # Render board
     draw_board(board, radius, height, screen)
+
     pygame.display.update()
 
     myfont = pygame.font.SysFont("monospace", 75)
@@ -24,55 +33,69 @@ def app():
     red = Player.RED.value
     yellow = Player.YELLOW.value
 
+    turn = red
+
     while not game_over:
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 sys.exit()
 
             if event.type == pygame.MOUSEMOTION:
                 pygame.draw.rect(screen, GUI.BLACK.value, (0,0, width, GUI.SQUARESIZE.value))
                 posx = event.pos[0]
-                if turn == 0:
+                if turn == red:
                     pygame.draw.circle(screen, GUI.RED.value, (posx, int(GUI.SQUARESIZE.value/2)), radius)
-                else: 
+                elif turn == yellow: 
                     pygame.draw.circle(screen, GUI.YELLOW.value, (posx, int(GUI.SQUARESIZE.value/2)), radius)
+            
+            # Rerender board
             pygame.display.update()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.draw.rect(screen, GUI.BLACK.value, (0, 0, width, GUI.SQUARESIZE.value))
 
-                if turn == 0: # p1 turn
+                # When red has to move
+                if turn == red:
                     posx = event.pos[0]
                     col = int(math.floor(posx/GUI.SQUARESIZE.value))
 
                     status, winner = board.drop(col, red)
                     has_won = winner in [Player.RED.value, Player.YELLOW.value]
+
                     if not status and not has_won:
                         continue
+
                     elif status and has_won:
                         label = myfont.render("Player Red wins!", 1, GUI.RED.value)
                         screen.blit(label, (40,10))
                         game_over = True
-                else:
+
+                # When yellow has to move
+                elif turn == yellow:
                     posx = event.pos[0]
                     col = int(math.floor(posx/GUI.SQUARESIZE.value))
 
                     status, winner = board.drop(col, yellow)
                     has_won = winner in [Player.RED.value, Player.YELLOW.value]
+
                     if not status and not has_won:
                         continue
+
                     elif status and has_won:
-                        label = myfont.render("Player Yellow wins!", 1, GUI.RED.value)
+                        label = myfont.render("Player Yellow wins!", 1, GUI.YELLOW.value)
                         screen.blit(label, (40,10))
                         game_over = True
-
+                
+                # Render board after a move has been made
                 draw_board(board, radius, height, screen)
 
-                turn += 1
-                turn = turn % 2
+                # Interchange turns between red and yellow
+                turn = red if turn == yellow else yellow
 
+                # Let game wait before quitting
                 if game_over:
-                    pygame.time.wait(3000)
+                    pygame.time.wait(1000)
 
 
 if __name__ == "__main__":

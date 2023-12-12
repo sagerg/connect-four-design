@@ -1,3 +1,7 @@
+""" Hardcoded global values go here
+"""
+
+
 from enum import Enum
 
 

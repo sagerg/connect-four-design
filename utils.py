@@ -4,6 +4,8 @@ from enums import Board, GUI
 from connect_four_logic import ConnectFour
 
 
+""" Function to render board after every move
+"""
 def draw_board(board: ConnectFour, radius: int, height: int, screen: Surface):
     board = board.board
     for r in range(len(board)):
@@ -17,4 +19,5 @@ def draw_board(board: ConnectFour, radius: int, height: int, screen: Surface):
                 pygame.draw.circle(screen, GUI.RED.value, (int(c*GUI.SQUARESIZE.value+GUI.SQUARESIZE.value/2), int((r+1)* GUI.SQUARESIZE.value+GUI.SQUARESIZE.value/2)), radius)
             elif board[r][c] == 2: 
                 pygame.draw.circle(screen, GUI.YELLOW.value, (int(c*GUI.SQUARESIZE.value+GUI.SQUARESIZE.value/2), int((r+1)*GUI.SQUARESIZE.value+GUI.SQUARESIZE.value/2)), radius)
+    
     pygame.display.update()
