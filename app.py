@@ -1,7 +1,9 @@
 import sys
 import math
+import random
 import pygame
 from connect_four_logic import ConnectFour
+from minimax import minimax
 from enums import Player, Board, GUI
 from utils import draw_board
 
@@ -46,8 +48,6 @@ def app():
                 posx = event.pos[0]
                 if turn == red:
                     pygame.draw.circle(screen, GUI.RED.value, (posx, int(GUI.SQUARESIZE.value/2)), radius)
-                elif turn == yellow: 
-                    pygame.draw.circle(screen, GUI.YELLOW.value, (posx, int(GUI.SQUARESIZE.value/2)), radius)
             
             # Rerender board
             pygame.display.update()
@@ -60,42 +60,66 @@ def app():
                     posx = event.pos[0]
                     col = int(math.floor(posx/GUI.SQUARESIZE.value))
 
-                    status, winner = board.drop(col, red)
+                    is_move_valid, winner = board.drop(col, red)
                     has_won = winner in [Player.RED.value, Player.YELLOW.value]
 
-                    if not status and not has_won:
-                        continue
+                    if is_move_valid:
+                        if has_won:
+                            label = myfont.render("Red wins!", 1, GUI.RED.value)
+                            screen.blit(label, (40,10))
+                            game_over = True
+                    
+                        # Render board after a move has been made
+                        draw_board(board, radius, height, screen)
+                        print(board)
 
-                    elif status and has_won:
-                        label = myfont.render("Player Red wins!", 1, GUI.RED.value)
-                        screen.blit(label, (40,10))
-                        game_over = True
+                        # Interchange turns between red and yellow
+                        turn = red if turn == yellow else yellow
 
-                # When yellow has to move
-                elif turn == yellow:
-                    posx = event.pos[0]
-                    col = int(math.floor(posx/GUI.SQUARESIZE.value))
+                    else:
 
-                    status, winner = board.drop(col, yellow)
-                    has_won = winner in [Player.RED.value, Player.YELLOW.value]
+                        # Game has already ended and there is a winner
+                        if has_won:
+                            label = myfont.render("Red wins!", 1, GUI.RED.value)
+                            screen.blit(label, (40,10))
+                            game_over = True
 
-                    if not status and not has_won:
-                        continue
+        # When yellow has to move which is the AI player
+        if turn == yellow and not game_over:
+            #col = random.randint(0, Board.COL.value-1)
+            col, _ = minimax(board, 5, -math.inf, math.inf, True)
 
-                    elif status and has_won:
-                        label = myfont.render("Player Yellow wins!", 1, GUI.YELLOW.value)
-                        screen.blit(label, (40,10))
-                        game_over = True
-                
+            if col is None:
+                continue
+
+            is_move_valid, winner = board.drop(col, yellow)
+            has_won = winner in [Player.RED.value, Player.YELLOW.value]
+
+            if is_move_valid:
+                pygame.time.wait(500)
+                if has_won:
+                    label = myfont.render("Yellow wins!", 1, GUI.YELLOW.value)
+                    screen.blit(label, (40,10))
+                    game_over = True
+
                 # Render board after a move has been made
                 draw_board(board, radius, height, screen)
+                print(board)
 
                 # Interchange turns between red and yellow
                 turn = red if turn == yellow else yellow
 
-                # Let game wait before quitting
-                if game_over:
-                    pygame.time.wait(1000)
+            else:
+
+                # Game has already ended and there is a winner
+                if has_won:
+                    label = myfont.render("Yellow wins!", 1, GUI.YELLOW.value)
+                    screen.blit(label, (40,10))
+                    game_over = True
+
+        # Let game wait before quitting
+        if game_over:
+            pygame.time.wait(3000)
 
 
 if __name__ == "__main__":
