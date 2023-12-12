@@ -1,4 +1,4 @@
-# Connect Four Design
+# Connect Four Design &middot; [![Python application](https://github.com/sagerg/connect-four-design/actions/workflows/python-app.yml/badge.svg)](https://github.com/sagerg/connect-four-design/actions/workflows/python-app.yml)
 
 A connect four game running on PyGame. At the time of building this project, it is running on `Python 3.9.6` and using `pip 21.2.4`
 
