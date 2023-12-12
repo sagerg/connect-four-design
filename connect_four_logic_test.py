@@ -16,9 +16,8 @@ def connect_four_game_1():
     response = {}
     for move in moves:
         column, player = move
-        response = cf.drop(at_column=column, player=player)
-    
-    return response.winner # RED WINS
+        res, winner = cf.drop(at_column=column, player=player)
+    return winner # RED WINS
 
 
 @pytest.fixture
@@ -35,9 +34,8 @@ def connect_four_game_2():
     response = {}
     for move in moves:
         column, player = move
-        response = cf.drop(at_column=column, player=player)
-    
-    return response.winner # YELLOW WINS
+        res, winner = cf.drop(at_column=column, player=player)
+    return winner # YELLOW WINS
 
 
 def test_connect_four_game_red(connect_four_game_1):

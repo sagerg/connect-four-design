@@ -1,10 +1,7 @@
 from enums import Player, Board
 
 
-class ConnectFour:
-    def __new__(cls): 
-        return super(ConnectFour, cls).__new__(cls) 
-    
+class ConnectFour:  
     def __init__(self, board = [[0 for y in range(Board.COL.value)] for x in range(Board.ROW.value)], winner = 0):
         self.board = board
         self.winner = winner
@@ -21,9 +18,9 @@ class ConnectFour:
         str_builder += '\n'
         str_builder += 'Winner: ' + ('None' if not self.__is_there_a_winner() else str(Player(self.winner).name) + ', ' + str(self.winner))
         return str_builder
-    
 
-    def drop(self, at_column: int, player: int) -> dict:
+
+    def drop(self, at_column: int, player: int) -> tuple:
         if not self.__is_there_a_winner():
             for row in range(len(self.board) - 1, -1, -1):
                 if self.board[row][at_column] == 0:
@@ -34,12 +31,16 @@ class ConnectFour:
                     if self.is_game_over(player, row, at_column):
                         self.winner = player
 
-                        return self
+                        return (True, player)
                     
                     # exit out of loop once we've found target cell
-                    break
+                    else:
+                        return (True, 0)
+
+            # if no rows are available at this col
+            return (False, 0)
         else:
-            return self
+            return (False, self.winner)
 
 
     def is_game_over(self, player: int, row: int, col: int) -> bool:
