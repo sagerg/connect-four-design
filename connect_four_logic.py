@@ -1,11 +1,11 @@
-from src.enums import Player
+from enums import Player, Board
 
 
 class ConnectFour:
     def __new__(cls): 
         return super(ConnectFour, cls).__new__(cls) 
     
-    def __init__(self, board: list[list[int]] = [[0 for y in range(7)] for x in range(6)], winner: int = 0):
+    def __init__(self, board = [[0 for y in range(Board.COL.value)] for x in range(Board.ROW.value)], winner = 0):
         self.board = board
         self.winner = winner
 
@@ -31,7 +31,7 @@ class ConnectFour:
                     # drop player chip in this column
                     self.board[row][at_column] = player
 
-                    if self.__is_game_over(player, row, at_column):
+                    if self.is_game_over(player, row, at_column):
                         self.winner = player
 
                         return self
@@ -42,17 +42,17 @@ class ConnectFour:
             return self
 
 
-    def __is_there_a_winner(self) -> bool:
-        return self.winner in [Player.RED.value, Player.YELLOW.value]
-
-
-    def __is_game_over(self, player: int, row: int, col: int) -> bool:
+    def is_game_over(self, player: int, row: int, col: int) -> bool:
         return (
             self.__is_column_won(player, (row, col))\
             or self.__is_row_won(player, (row, col))\
             or self.__is_diag_won(player, (row, col))\
             or self.__is_anti_diag_won(player, (row, col))
         )
+
+
+    def __is_there_a_winner(self) -> bool:
+        return self.winner in [Player.RED.value, Player.YELLOW.value]
 
 
     def __is_column_won(self, player, pos) -> bool:

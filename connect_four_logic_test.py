@@ -1,6 +1,6 @@
 import pytest
-from src.enums import Player
-from src.managers.connect_four_manager import ConnectFour
+from enums import Player
+from connect_four_logic import ConnectFour
 
 
 @pytest.fixture
