@@ -44,7 +44,7 @@ $ python app.py
 Run tests with PyTest
 
 ```
-$ pytest -v
+$ pytest
 ```
 
 ### Contributing
