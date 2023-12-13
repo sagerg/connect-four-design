@@ -1,4 +1,5 @@
-from enums import Player, Board
+from src.enums import Player, Board
+import copy
 
 
 """ Connect four class
@@ -20,11 +21,11 @@ class ConnectFour:
         str_builder += 'Winner: ' + ('None' if not self.__is_there_a_winner() else str(Player(self.winner).name) + ', ' + str(self.winner))
         str_builder += '\n'
         return str_builder
-    
+
 
     def __deepcopy__(self, memo):
-        board_copy = [[y for y in range(Board.COL.value)] for i in range(len(self.board))]
-        winner_copy = self.winner
+        board_copy = copy.deepcopy(self.board)
+        winner_copy = copy.deepcopy(self.winner)
         return ConnectFour(board=board_copy, winner=winner_copy)
 
 
@@ -78,12 +79,14 @@ class ConnectFour:
 
     """ Check | direction for winners
     """
-    def __is_column_won(self, player) -> bool:
+    def __is_column_won(self, player: int) -> bool:
         for i in range(len(self.board)):
             for j in range(len(self.board[0])):
                 try:
-                    if player == self.board[i][j]:
-                        return self.board[i][j] == self.board[i][j+1] == self.board[i][j+2] == self.board[i][j+3]
+                    if player == self.board[i][j] and \
+                        self.board[i][j] == self.board[i][j+1] == self.board[i][j+2] == self.board[i][j+3]:
+
+                        return True
                 except IndexError:
                     continue
         return False
@@ -91,12 +94,14 @@ class ConnectFour:
 
     """ Check -- direction for winners
     """
-    def __is_row_won(self, player) -> bool:
+    def __is_row_won(self, player: int) -> bool:
         for i in range(len(self.board)):
             for j in range(len(self.board[0])):
                 try:
-                    if player == self.board[i][j]:
-                        return self.board[i][j] == self.board[i+1][j] == self.board[i+2][j] == self.board[i+3][j]
+                    if player == self.board[i][j] and \
+                        self.board[i][j] == self.board[i+1][j] == self.board[i+2][j] == self.board[i+3][j]:
+
+                        return True
                 except IndexError:
                     continue
         return False
@@ -104,25 +109,29 @@ class ConnectFour:
 
     """ Check / direction for winners
     """
-    def __is_diag_won(self, player) -> bool:
+    def __is_diag_won(self, player: int) -> bool:
         for i in range(len(self.board)):
             for j in range(len(self.board[0])):
                 try:
-                    if player == self.board[i][j]:
-                        return self.board[i][j] == self.board[i+1][j+1] == self.board[i+2][j+2] == self.board[i+3][j+3]
+                    if player == self.board[i][j] and \
+                        self.board[i][j] == self.board[i+1][j+1] == self.board[i+2][j+2] == self.board[i+3][j+3]:
+                        
+                        return True
                 except IndexError:
                     continue
         return False
 
 
-    """ Check \ direction for winners
+    """ Check \\ direction for winners
     """
-    def __is_anti_diag_won(self, player) -> bool:
+    def __is_anti_diag_won(self, player: int) -> bool:
         for i in range(len(self.board)):
             for j in range(len(self.board[0])):
                 try:
-                    if player == self.board[i][j]:
-                        return self.board[i][j] == self.board[i+1][j-1] == self.board[i+2][j-2] == self.board[i+3][j-3]
+                    if player == self.board[i][j] and \
+                        self.board[i][j] == self.board[i+1][j-1] == self.board[i+2][j-2] == self.board[i+3][j-3]:
+
+                        return True
                 except IndexError:
                     continue
         return False

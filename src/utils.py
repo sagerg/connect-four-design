@@ -1,7 +1,7 @@
 import pygame
 from pygame.surface import Surface
-from enums import Board, GUI
-from connect_four_logic import ConnectFour
+from src.enums import Board, GUI
+from src.connect_four_logic import ConnectFour
 
 
 """ Function to render board after every move
