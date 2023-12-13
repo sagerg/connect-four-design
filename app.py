@@ -2,10 +2,10 @@ import sys
 import math
 import random
 import pygame
-from connect_four_logic import ConnectFour
-from minimax import minimax
-from enums import Player, Board, GUI
-from utils import draw_board
+from src.connect_four_logic import ConnectFour
+from src.minimax import minimax
+from src.enums import Player, Board, GUI
+from src.utils import draw_board
 
 
 """ Setup and manage game session
@@ -71,7 +71,6 @@ def app():
                     
                         # Render board after a move has been made
                         draw_board(board, radius, height, screen)
-                        print(board)
 
                         # Interchange turns between red and yellow
                         turn = red if turn == yellow else yellow
@@ -86,8 +85,12 @@ def app():
 
         # When yellow has to move which is the AI player
         if turn == yellow and not game_over:
-            #col = random.randint(0, Board.COL.value-1)
-            col, _ = minimax(board, 5, -math.inf, math.inf, True)
+            
+            # Randomly select a column to drop a piece in
+            # col = random.randint(0, Board.COL.value-1)
+
+            # Use Minimax with AB pruning to decide where to drop a piece
+            col, _ = minimax(board, 3, -math.inf, math.inf, True)
 
             if col is None:
                 continue
@@ -104,7 +107,6 @@ def app():
 
                 # Render board after a move has been made
                 draw_board(board, radius, height, screen)
-                print(board)
 
                 # Interchange turns between red and yellow
                 turn = red if turn == yellow else yellow

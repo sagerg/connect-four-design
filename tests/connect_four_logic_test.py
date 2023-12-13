@@ -1,6 +1,6 @@
 import pytest
-from enums import Player
-from connect_four_logic import ConnectFour
+from src.enums import Player
+from src.connect_four_logic import ConnectFour
 
 
 @pytest.fixture(scope='function', autouse=True)
