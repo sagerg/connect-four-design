@@ -122,7 +122,7 @@ class ConnectFour:
         return False
 
 
-    """ Check \ direction for winners
+    """ Check \\ direction for winners
     """
     def __is_anti_diag_won(self, player: int) -> bool:
         for i in range(len(self.board)):
